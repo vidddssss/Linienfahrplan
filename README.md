@@ -1,6 +1,16 @@
-# Mein Linienfahrplan – Testversion
-Lade alle fünf Dateien in das Stammverzeichnis deines GitHub-Repositorys. Unter Settings → Pages wähle Deploy from a branch, `main`, `/(root)`, dann Save.
+# Mein Linienfahrplan – Version 1.0.0x2
 
-Enthalten: manuelles Starten/Pausieren/Fortsetzen/Zurücksetzen, Hin- und Rückfahrt mit eigenen Fahrzeiten, Aufenthaltszeiten, Wendezeit, Pünktlichkeitsanzeige, Statistik ohne Kilometer, lokale Speicherung und JSON-Import/Export.
+## Installation / Veröffentlichung
+Lade die fünf Dateien in das Stammverzeichnis deines GitHub-Pages-Repositories und bestätige den Commit. Die App verwendet ein dunkles Design als Standard.
 
-Hinweis: Dies ist eine frühe Testversion. Bitte die Fahrplan- und Verspätungslogik vor längerer Nutzung mit kurzen Testfahrten prüfen. Die Zeiten der Fahrplanvorschau sind geplante Zeiten; beim manuellen Abfahrtsknopf wird die Geräteuhr für die Verspätung herangezogen.
+## Änderungen
+- Dunkles Design als Standard.
+- Klarer Status: an Haltestelle, unterwegs, Wendezeit, pausiert.
+- Nächster Halt bleibt während der Fahrt das Ziel und wechselt erst nach bestätigter Ankunft und anschließender Abfahrt.
+- Unbegrenzter Umlauf zwischen Hin- und Rückfahrt.
+- Einstellbare Fahrzeiten je Abschnitt für beide Richtungen, Haltezeit und Wendezeit.
+- Anzeige der Abweichung in Minuten und Sekunden sowie einfache Betriebsstatistik.
+- Service-Worker-Cache mit neuer Versionskennung.
+
+## Hinweise zum Prototyp
+Dies ist weiterhin eine Testversion. Zeitpläne werden aus den tatsächlichen manuellen Abfahrtsbestätigungen fortgeschrieben; es gibt noch keine automatische GPS-Erkennung. Bitte vor einem längeren Einsatz insbesondere die Übergänge an den Endhaltestellen und die Verspätungsberechnung prüfen. Statistik wird beim Beenden des Betriebs zurückgesetzt.
