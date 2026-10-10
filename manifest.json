@@ -1,10 +1,10 @@
 {
-  "name": "Mein Linienfahrplan 1.0.0x2",
+  "name": "Mein Linienfahrplan 1.0.0x3",
   "short_name": "Linienfahrplan",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#0b1220",
   "theme_color": "#101827",
-  "description": "Persönlicher Linienfahrplan für Hin- und Rückfahrten"
+  "description": "Persönlicher Linienfahrplan mit übersichtlichen Haltestellenabschnitten"
 }

@@ -5,16 +5,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#101827">
 <link rel="manifest" href="manifest.json">
-<title>Mein Linienfahrplan 1.0.0x2</title>
+<title>Mein Linienfahrplan 1.0.0x3</title>
 <style>
 :root{color-scheme:dark;--bg:#0b1220;--panel:#121d2e;--panel2:#1a2940;--line:#2a3a52;--text:#edf3fb;--muted:#a8b6c9;--blue:#6ea8ff;--green:#65d6a2;--orange:#ffc46b;--red:#ff7d86}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.45 system-ui,-apple-system,sans-serif}
 header{padding:20px 16px 16px;background:#101827;border-bottom:1px solid var(--line)}header h1{margin:0;font-size:1.35rem}header p{margin:5px 0 0;color:var(--muted);font-size:.9rem}
-main{max-width:760px;margin:auto;padding:14px;display:grid;gap:14px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}.eyebrow{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}.bigtime{font-size:clamp(2rem,9vw,3.1rem);font-weight:750;font-variant-numeric:tabular-nums;letter-spacing:.02em}.muted{color:var(--muted)}.status{display:inline-block;padding:5px 10px;border-radius:999px;background:#23354e;color:#dbe9ff;font-size:.82rem;font-weight:650}.status.good{background:#173b32;color:#a4f2d0}.status.warn{background:#4b3520;color:#ffdaa0}.status.stop{background:#48252b;color:#ffb3ba}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric{background:var(--panel2);padding:12px;border-radius:12px;min-width:0}.metric .value{font-size:1.25rem;font-weight:700;font-variant-numeric:tabular-nums}.metric .label{font-size:.8rem;color:var(--muted)}h2{font-size:1.05rem;margin:0 0 12px}label{display:block;font-size:.9rem;color:var(--muted);margin-bottom:5px}input,select{width:100%;background:#0c1524;color:var(--text);border:1px solid #344760;border-radius:10px;padding:10px;font:inherit}input[type=number]{font-variant-numeric:tabular-nums}.field{margin-bottom:12px}button{font:inherit;font-weight:650;border:1px solid #3a506e;border-radius:11px;padding:11px 13px;background:#243750;color:var(--text);cursor:pointer}button.primary{background:#2866c4;border-color:#2866c4}button.green{background:#176b4d;border-color:#176b4d}button.danger{background:#742f3a;border-color:#8b3d49}button:disabled{opacity:.38;cursor:not-allowed}.buttons{display:flex;gap:8px;flex-wrap:wrap}.buttons button{flex:1 1 140px}.stopname{font-size:1.65rem;font-weight:750;margin:2px 0 12px}.notice{padding:10px 12px;background:#192b40;border-radius:10px;color:#cfe0f8;font-size:.9rem}.stoprow{display:grid;grid-template-columns:1fr auto;gap:8px;padding:9px 0;border-bottom:1px solid var(--line)}.stoprow:last-child{border:0}.small{font-size:.84rem}.hide{display:none!important}details summary{cursor:pointer;font-weight:700;margin-bottom:12px}.version{float:right;font-size:.78rem;color:var(--muted)}@media(min-width:620px){main{grid-template-columns:1fr 1fr}.wide{grid-column:1/-1}}
+main{max-width:760px;margin:auto;padding:14px;display:grid;gap:14px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}.eyebrow{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}.bigtime{font-size:clamp(2rem,9vw,3.1rem);font-weight:750;font-variant-numeric:tabular-nums;letter-spacing:.02em}.muted{color:var(--muted)}.status{display:inline-block;padding:5px 10px;border-radius:999px;background:#23354e;color:#dbe9ff;font-size:.82rem;font-weight:650}.status.good{background:#173b32;color:#a4f2d0}.status.warn{background:#4b3520;color:#ffdaa0}.status.stop{background:#48252b;color:#ffb3ba}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric{background:var(--panel2);padding:12px;border-radius:12px;min-width:0}.metric .value{font-size:1.25rem;font-weight:700;font-variant-numeric:tabular-nums}.metric .label{font-size:.8rem;color:var(--muted)}h2{font-size:1.05rem;margin:0 0 12px}label{display:block;font-size:.9rem;color:var(--muted);margin-bottom:5px}input,select{width:100%;background:#0c1524;color:var(--text);border:1px solid #344760;border-radius:10px;padding:10px;font:inherit}input[type=number]{font-variant-numeric:tabular-nums}.field{margin-bottom:12px}button{font:inherit;font-weight:650;border:1px solid #3a506e;border-radius:11px;padding:11px 13px;background:#243750;color:var(--text);cursor:pointer}button.primary{background:#2866c4;border-color:#2866c4}button.green{background:#176b4d;border-color:#176b4d}button.danger{background:#742f3a;border-color:#8b3d49}button:disabled{opacity:.38;cursor:not-allowed}.buttons{display:flex;gap:8px;flex-wrap:wrap}.buttons button{flex:1 1 140px}.stopname{font-size:1.65rem;font-weight:750;margin:2px 0 12px}.notice{padding:10px 12px;background:#192b40;border-radius:10px;color:#cfe0f8;font-size:.9rem}.stoprow{display:grid;grid-template-columns:1fr auto;gap:8px;padding:9px 0;border-bottom:1px solid var(--line)}.stoprow:last-child{border:0}.small{font-size:.84rem}.hide{display:none!important}details summary{cursor:pointer;font-weight:700;margin-bottom:12px}.version{float:right;font-size:.78rem;color:var(--muted)}
+.station-editor{display:grid;gap:10px;margin:12px 0}
+.station-card{border:1px solid var(--line);background:#0e1828;border-radius:13px;padding:12px}
+.station-head{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.station-number{display:grid;place-items:center;min-width:28px;height:28px;border-radius:50%;background:#263e5c;color:#fff;font-weight:750}
+.station-title{font-weight:750;flex:1}
+.station-card.current{border-color:var(--green);box-shadow:0 0 0 1px #65d6a244}
+.station-card .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.route-mini{display:flex;align-items:stretch;gap:0;overflow-x:auto;padding:10px 2px 4px}
+.route-stop{min-width:76px;max-width:112px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:5px;position:relative;font-size:.75rem;color:var(--muted)}
+.route-stop:not(:last-child)::after{content:"";position:absolute;top:11px;left:calc(50% + 12px);width:calc(100% - 24px);height:3px;background:#344760}
+.route-dot{width:24px;height:24px;border:3px solid #536780;border-radius:50%;background:var(--panel);z-index:1}
+.route-stop.done .route-dot{background:var(--green);border-color:var(--green)}
+.route-stop.active .route-dot{background:var(--blue);border-color:#d8e8ff;box-shadow:0 0 0 4px #6ea8ff33}
+.route-stop.active{color:var(--text);font-weight:750}
+.route-stop.done:not(:last-child)::after{background:var(--green)}
+@media(min-width:620px){main{grid-template-columns:1fr 1fr}.wide{grid-column:1/-1}}
 </style>
 </head>
 <body>
-<header><span class="version">v1.0.0x2</span><h1>Mein Linienfahrplan</h1><p>Dunkles Design · manueller Betrieb · Hin- und Rückfahrt im Endlosumlauf</p></header>
+<header><span class="version">v1.0.0x3</span><h1>Mein Linienfahrplan</h1><p>Dunkles Design · manueller Betrieb · Hin- und Rückfahrt im Endlosumlauf</p></header>
 <main>
 <section class="card wide">
  <div class="eyebrow">Betriebsstatus</div><p><span id="status" class="status">Nicht gestartet</span></p>
@@ -25,6 +41,8 @@ main{max-width:760px;margin:auto;padding:14px;display:grid;gap:14px}.card{backgr
  </div>
 </section>
 <section class="card">
+ <div class="eyebrow">Wo bin ich gerade?</div>
+ <div id="routeMini" class="route-mini" aria-label="Haltestellenübersicht"></div>
  <div class="eyebrow">Aktueller Standort</div><div class="stopname" id="currentStop">Haltestelle 1</div>
  <div class="muted small" id="phaseText">Betrieb starten, um an der ersten Haltestelle zu beginnen.</div>
  <div style="height:12px"></div>
@@ -59,25 +77,21 @@ main{max-width:760px;margin:auto;padding:14px;display:grid;gap:14px}.card{backgr
 <section class="card wide">
  <details>
   <summary>⚙ Fahrplan und Zeiten einstellen</summary>
-  <div class="field"><label for="stops">Haltestellen (eine pro Zeile, mindestens 2)</label><textarea id="stops" rows="4" style="width:100%;background:#0c1524;color:var(--text);border:1px solid #344760;border-radius:10px;padding:10px;font:inherit">Bahnhof
-Marktplatz
-Schulhaus
-Endhaltestelle</textarea></div>
+  <div class="field"><label for="firstTime">Erste Abfahrt (HH:MM)</label><input id="firstTime" value="08:00" pattern="[0-2][0-9]:[0-5][0-9]"></div>
+  <div class="field"><label for="stationCount">Anzahl Haltestellen (2–12)</label><select id="stationCount"><option>2</option><option>3</option><option selected>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select></div>
+  <div id="stationEditor" class="station-editor"></div>
   <div class="grid">
-   <div class="field"><label for="firstTime">Erste Abfahrt (HH:MM)</label><input id="firstTime" value="08:00" pattern="[0-2][0-9]:[0-5][0-9]"></div>
    <div class="field"><label for="dwell">Aufenthalt je Zwischenhalt (Min.)</label><input id="dwell" type="number" min="0" max="180" value="1"></div>
-   <div class="field"><label for="outTimes">Fahrzeit Hinfahrt je Abschnitt (Min.)</label><input id="outTimes" value="4,5,6"></div>
-   <div class="field"><label for="backTimes">Fahrzeit Rückfahrt je Abschnitt (Min.)</label><input id="backTimes" value="6,5,4"></div>
    <div class="field"><label for="turnaround">Wendezeit am Endpunkt (Min.)</label><input id="turnaround" type="number" min="0" max="360" value="5"></div>
   </div>
-  <p class="small muted">Fahrzeiten als kommagetrennte Minuten je Streckenabschnitt, in der Reihenfolge der Haltestellen. Die Hinfahrt braucht bei 4 Haltestellen 3 Werte und die Rückfahrt ebenfalls 3.</p>
+  <p class="small muted">Jede Haltestelle hat ihren eigenen Abschnitt. Die Fahrzeit steht bei der Abfahrtshaltestelle und gilt bis zur nächsten Haltestelle. Für die Rückfahrt gibt es eine separate Fahrzeit.</p>
   <button id="saveSettings">Fahrplan übernehmen</button>
  </details>
 </section>
 </main>
 <script>
 const $=id=>document.getElementById(id);
-let stops=[],outTimes=[],backTimes=[],dwell=1,turnaround=5,firstTime='08:00';
+let stops=['Bahnhof','Marktplatz','Schulhaus','Endhaltestelle'],outTimes=[4,5,6],backTimes=[6,5,4],dwell=1,turnaround=5,firstTime='08:00';
 let running=false,paused=false,phase='idle',direction=1,index=0,cycles=0;
 let scheduledArrival=null,scheduledDeparture=null,delayMs=0,actualDeparture=null,actualArrival=null,turnaroundUntil=null;
 let arrivals=0,departures=0,delaySamples=[],late=0,clockTimer=null;
@@ -85,13 +99,30 @@ const fmtTime=d=>d instanceof Date&&!isNaN(d)?d.toLocaleTimeString('de-CH',{hour
 const fmtHM=d=>d instanceof Date&&!isNaN(d)?d.toLocaleTimeString('de-CH',{hour:'2-digit',minute:'2-digit'}):'—';
 const fmtDelta=ms=>{let s=Math.round(ms/1000),sign=s>0?'+':s<0?'−':'',a=Math.abs(s);return sign+String(Math.floor(a/60)).padStart(2,'0')+':'+String(a%60).padStart(2,'0')};
 const addMin=(d,m)=>new Date(d.getTime()+m*60000);
+function renderStationEditor(){
+ const count=Math.max(2,Math.min(12,Number($('stationCount').value)||4));
+ const oldNames=stops.slice(),oldOut=outTimes.slice(),oldBack=backTimes.slice();
+ stops=Array.from({length:count},(_,i)=>oldNames[i]||(['Bahnhof','Marktplatz','Schulhaus','Endhaltestelle'][i]||('Haltestelle '+(i+1))));
+ outTimes=Array.from({length:count-1},(_,i)=>oldOut[i]??5);
+ backTimes=Array.from({length:count-1},(_,i)=>oldBack[i]??5);
+ $('stationEditor').innerHTML=stops.map((name,i)=>`<div class="station-card" data-station="${i}"><div class="station-head"><span class="station-number">${i+1}</span><span class="station-title">${i===0?'Start-Haltestelle':i===count-1?'Endhaltestelle':'Haltestelle '+(i+1)}</span></div><div class="field"><label>Name der Haltestelle</label><input data-name="${i}" value="${escapeHtml(name)}" placeholder="Name eingeben"></div>${i<count-1?`<div class="grid"><div class="field"><label>Fahrzeit hin → nächste (Min.)</label><input type="number" min="0" max="600" data-out="${i}" value="${outTimes[i]}"></div><div class="field"><label>Fahrzeit zurück ← nächste (Min.)</label><input type="number" min="0" max="600" data-back="${i}" value="${backTimes[i]}"></div></div>`:`<p class="small muted">Endpunkt · Wendezeit: ${turnaround} Min.</p>`}</div>`).join('');
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function readSettings(){
- let ns=$('stops').value.split('\n').map(s=>s.trim()).filter(Boolean);
- if(ns.length<2)throw Error('Bitte mindestens zwei Haltestellen eintragen.');
- let o=$('outTimes').value.split(',').map(x=>Number(x.trim())),b=$('backTimes').value.split(',').map(x=>Number(x.trim()));
- if(o.length!==ns.length-1||b.length!==ns.length-1||[...o,...b].some(n=>!Number.isFinite(n)||n<0))throw Error('Für jede Richtung brauchst du genau '+(ns.length-1)+' gültige Fahrzeiten (Minuten).');
+ const cards=[...$('stationEditor').querySelectorAll('.station-card')];
+ const ns=cards.map(c=>c.querySelector('[data-name]').value.trim());
+ if(ns.length<2||ns.some(s=>!s))throw Error('Bitte jeder Haltestelle einen Namen geben.');
+ const o=[],b=[];
+ cards.forEach((c,i)=>{const oi=c.querySelector('[data-out]'),bi=c.querySelector('[data-back]');if(oi&&bi){o.push(Number(oi.value));b.push(Number(bi.value));}});
+ if(o.length!==ns.length-1||b.length!==ns.length-1||[...o,...b].some(n=>!Number.isFinite(n)||n<0))throw Error('Bitte alle Fahrzeiten gültig und positiv oder 0 eintragen.');
  const t=$('firstTime').value;if(!/^\d{2}:\d{2}$/.test(t))throw Error('Bitte erste Abfahrt als HH:MM eingeben.');
  stops=ns;outTimes=o;backTimes=b;dwell=Math.max(0,Number($('dwell').value)||0);turnaround=Math.max(0,Number($('turnaround').value)||0);firstTime=t;
+ renderRouteMini();
+}
+function renderRouteMini(){
+ const el=$('routeMini');if(!el)return;
+ el.innerHTML=stops.map((s,i)=>{let cls='route-stop';if(i<index)cls+=' done';if(i===index)cls+=' active';return `<div class="${cls}"><span class="route-dot"></span><span>${escapeHtml(s)}</span></div>`}).join('');
+ const cards=$('stationEditor');if(cards)cards.querySelectorAll('.station-card').forEach((c,i)=>c.classList.toggle('current',i===index));
 }
 function plannedAtStart(){let [h,m]=firstTime.split(':').map(Number),d=new Date();d.setHours(h,m,0,0);if(d.getTime()<Date.now()-60000)d.setDate(d.getDate()+1);return d;}
 function segmentMinutes(from,to,dir){return dir===1?outTimes[from]:backTimes[to];}
@@ -102,7 +133,7 @@ function update(){
  $('avgDelay').textContent=delaySamples.length?fmtDelta(delaySamples.reduce((a,b)=>a+b,0)/delaySamples.length):'—';
  $('delay').textContent=fmtDelta(delayMs);$('delayHint').textContent=delaySamples.length?'Abweichung zur geplanten Zeit':'Noch keine Abfahrt erfasst';
  $('direction').textContent=direction===1?'Hinfahrt':'Rückfahrt';
- $('currentStop').textContent=stops[index]||'—';
+ $('currentStop').textContent=stops[index]||'—';renderRouteMini();
  let moving=phase==='moving',atStop=['atStop','idle'].includes(phase);
  $('phaseText').textContent=phase==='idle'?'Betrieb starten, um an der ersten Haltestelle zu beginnen.':phase==='moving'?'Unterwegs zur nächsten Haltestelle.':phase==='turnaround'?'Wendezeit am Endpunkt.':paused?'Betrieb pausiert.':'Du stehst an der Haltestelle.';
  $('nextStop').textContent=moving?(stops[index]||'—'):(phase==='turnaround'?'Wendezeit': '—');
@@ -148,7 +179,8 @@ function arrive(){
 function togglePause(){paused=!paused;update();}
 function end(){if(!confirm('Betrieb wirklich beenden und aktuelle Statistik zurücksetzen?'))return;running=false;paused=false;phase='idle';index=0;direction=1;scheduledArrival=scheduledDeparture=null;actualArrival=actualDeparture=null;update();}
 $('start').addEventListener('click',start);$('depart').addEventListener('click',depart);$('arrive').addEventListener('click',arrive);$('pause').addEventListener('click',togglePause);$('end').addEventListener('click',end);
+$('stationCount').addEventListener('change',()=>{if(running){alert('Bitte Betrieb erst beenden, bevor du die Haltestellenanzahl änderst.');return}renderStationEditor();renderRouteMini();});
 $('saveSettings').addEventListener('click',()=>{try{if(running)throw Error('Bitte Betrieb erst beenden, bevor du den Fahrplan änderst.');readSettings();index=0;update();alert('Fahrplan übernommen.');}catch(e){alert(e.message)}});
-try{readSettings()}catch(e){}update();setInterval(update,1000);
+renderStationEditor();try{readSettings()}catch(e){}update();setInterval(update,1000);
 </script>
 </body></html>
