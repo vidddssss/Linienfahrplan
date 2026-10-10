@@ -1,10 +1,17 @@
 {
-  "name": "Mein Linienfahrplan 1.0.0x2",
+  "name": "Mein Linienfahrplan – Testversion",
   "short_name": "Linienfahrplan",
   "start_url": "./",
-  "scope": "./",
   "display": "standalone",
-  "background_color": "#0b1220",
-  "theme_color": "#101827",
-  "description": "Persönlicher Linienfahrplan für Hin- und Rückfahrten"
+  "background_color": "#f2f5f9",
+  "theme_color": "#132238",
+  "description": "Persönlicher Linienfahrplan mit manueller Betriebssteuerung, Hin- und Rückfahrt und Statistik.",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
 }

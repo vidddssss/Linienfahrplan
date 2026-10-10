@@ -1,154 +1,26 @@
-<!doctype html>
-<html lang="de">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#101827">
-<link rel="manifest" href="manifest.json">
-<title>Mein Linienfahrplan 1.0.0x2</title>
-<style>
-:root{color-scheme:dark;--bg:#0b1220;--panel:#121d2e;--panel2:#1a2940;--line:#2a3a52;--text:#edf3fb;--muted:#a8b6c9;--blue:#6ea8ff;--green:#65d6a2;--orange:#ffc46b;--red:#ff7d86}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.45 system-ui,-apple-system,sans-serif}
-header{padding:20px 16px 16px;background:#101827;border-bottom:1px solid var(--line)}header h1{margin:0;font-size:1.35rem}header p{margin:5px 0 0;color:var(--muted);font-size:.9rem}
-main{max-width:760px;margin:auto;padding:14px;display:grid;gap:14px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}.eyebrow{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}.bigtime{font-size:clamp(2rem,9vw,3.1rem);font-weight:750;font-variant-numeric:tabular-nums;letter-spacing:.02em}.muted{color:var(--muted)}.status{display:inline-block;padding:5px 10px;border-radius:999px;background:#23354e;color:#dbe9ff;font-size:.82rem;font-weight:650}.status.good{background:#173b32;color:#a4f2d0}.status.warn{background:#4b3520;color:#ffdaa0}.status.stop{background:#48252b;color:#ffb3ba}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric{background:var(--panel2);padding:12px;border-radius:12px;min-width:0}.metric .value{font-size:1.25rem;font-weight:700;font-variant-numeric:tabular-nums}.metric .label{font-size:.8rem;color:var(--muted)}h2{font-size:1.05rem;margin:0 0 12px}label{display:block;font-size:.9rem;color:var(--muted);margin-bottom:5px}input,select{width:100%;background:#0c1524;color:var(--text);border:1px solid #344760;border-radius:10px;padding:10px;font:inherit}input[type=number]{font-variant-numeric:tabular-nums}.field{margin-bottom:12px}button{font:inherit;font-weight:650;border:1px solid #3a506e;border-radius:11px;padding:11px 13px;background:#243750;color:var(--text);cursor:pointer}button.primary{background:#2866c4;border-color:#2866c4}button.green{background:#176b4d;border-color:#176b4d}button.danger{background:#742f3a;border-color:#8b3d49}button:disabled{opacity:.38;cursor:not-allowed}.buttons{display:flex;gap:8px;flex-wrap:wrap}.buttons button{flex:1 1 140px}.stopname{font-size:1.65rem;font-weight:750;margin:2px 0 12px}.notice{padding:10px 12px;background:#192b40;border-radius:10px;color:#cfe0f8;font-size:.9rem}.stoprow{display:grid;grid-template-columns:1fr auto;gap:8px;padding:9px 0;border-bottom:1px solid var(--line)}.stoprow:last-child{border:0}.small{font-size:.84rem}.hide{display:none!important}details summary{cursor:pointer;font-weight:700;margin-bottom:12px}.version{float:right;font-size:.78rem;color:var(--muted)}@media(min-width:620px){main{grid-template-columns:1fr 1fr}.wide{grid-column:1/-1}}
-</style>
-</head>
-<body>
-<header><span class="version">v1.0.0x2</span><h1>Mein Linienfahrplan</h1><p>Dunkles Design · manueller Betrieb · Hin- und Rückfahrt im Endlosumlauf</p></header>
-<main>
-<section class="card wide">
- <div class="eyebrow">Betriebsstatus</div><p><span id="status" class="status">Nicht gestartet</span></p>
- <div id="clock" class="bigtime">--:--:--</div>
- <div class="grid">
-  <div class="metric"><div class="label">Pünktlichkeit / Abweichung</div><div class="value" id="delay">00:00</div><div class="small muted" id="delayHint">Noch keine Abfahrt erfasst</div></div>
-  <div class="metric"><div class="label">Umläufe abgeschlossen</div><div class="value" id="cycles">0</div><div class="small muted" id="direction">Hinfahrt bereit</div></div>
- </div>
-</section>
-<section class="card">
- <div class="eyebrow">Aktueller Standort</div><div class="stopname" id="currentStop">Haltestelle 1</div>
- <div class="muted small" id="phaseText">Betrieb starten, um an der ersten Haltestelle zu beginnen.</div>
- <div style="height:12px"></div>
- <div class="eyebrow">Nächster Halt</div><div class="stopname" id="nextStop">—</div>
- <div class="grid">
-  <div class="metric"><div class="label">Plan-Ankunft</div><div class="value" id="nextArr">—</div></div>
-  <div class="metric"><div class="label">Plan-Abfahrt</div><div class="value" id="nextDep">—</div></div>
- </div>
- <p class="notice" id="guidance">Starte den Betrieb, um loszulegen.</p>
-</section>
-<section class="card">
- <h2>Betrieb steuern</h2>
- <div class="buttons">
-  <button id="start" class="primary">▶ Betrieb starten</button>
-  <button id="arrive" class="green" disabled>✓ Ankunft bestätigen</button>
-  <button id="depart" class="primary" disabled>➜ Abfahrt bestätigen</button>
-  <button id="pause" disabled>Ⅱ Pausieren</button>
-  <button id="end" class="danger" disabled>■ Betrieb beenden</button>
- </div>
- <p class="small muted">Die Haltestelle wechselt erst, wenn du die Abfahrt bestätigst. Ankunft und Abfahrt werden mit der tatsächlichen Uhrzeit erfasst.</p>
-</section>
-<section class="card">
- <h2>Statistik</h2>
- <div class="grid">
-  <div class="metric"><div class="label">Ankünfte erfasst</div><div class="value" id="arrivalsCount">0</div></div>
-  <div class="metric"><div class="label">Abfahrten erfasst</div><div class="value" id="departuresCount">0</div></div>
-  <div class="metric"><div class="label">Durchschnittliche Abweichung</div><div class="value" id="avgDelay">—</div></div>
-  <div class="metric"><div class="label">Verspätete Ankünfte</div><div class="value" id="lateCount">0</div></div>
- </div>
- <p class="small muted">Kilometer werden in dieser Version noch nicht erfasst. Statistik gilt bis zum Beenden des Betriebs.</p>
-</section>
-<section class="card wide">
- <details>
-  <summary>⚙ Fahrplan und Zeiten einstellen</summary>
-  <div class="field"><label for="stops">Haltestellen (eine pro Zeile, mindestens 2)</label><textarea id="stops" rows="4" style="width:100%;background:#0c1524;color:var(--text);border:1px solid #344760;border-radius:10px;padding:10px;font:inherit">Bahnhof
-Marktplatz
-Schulhaus
-Endhaltestelle</textarea></div>
-  <div class="grid">
-   <div class="field"><label for="firstTime">Erste Abfahrt (HH:MM)</label><input id="firstTime" value="08:00" pattern="[0-2][0-9]:[0-5][0-9]"></div>
-   <div class="field"><label for="dwell">Aufenthalt je Zwischenhalt (Min.)</label><input id="dwell" type="number" min="0" max="180" value="1"></div>
-   <div class="field"><label for="outTimes">Fahrzeit Hinfahrt je Abschnitt (Min.)</label><input id="outTimes" value="4,5,6"></div>
-   <div class="field"><label for="backTimes">Fahrzeit Rückfahrt je Abschnitt (Min.)</label><input id="backTimes" value="6,5,4"></div>
-   <div class="field"><label for="turnaround">Wendezeit am Endpunkt (Min.)</label><input id="turnaround" type="number" min="0" max="360" value="5"></div>
-  </div>
-  <p class="small muted">Fahrzeiten als kommagetrennte Minuten je Streckenabschnitt, in der Reihenfolge der Haltestellen. Die Hinfahrt braucht bei 4 Haltestellen 3 Werte und die Rückfahrt ebenfalls 3.</p>
-  <button id="saveSettings">Fahrplan übernehmen</button>
- </details>
-</section>
-</main>
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#132238"><link rel="manifest" href="manifest.json"><title>Mein Linienfahrplan – Test</title><style>
+:root{--navy:#132238;--blue:#2365d1;--bg:#f2f5f9;--line:#dce3ec;--muted:#65758b}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#172335;font:16px system-ui}header{background:var(--navy);color:white;padding:18px}header h1{margin:0;font-size:1.4rem}header p{margin:5px 0 0;color:#c9d5e4}.wrap{max-width:900px;margin:auto;padding:12px;display:grid;gap:12px}.card{background:white;border:1px solid var(--line);border-radius:15px;padding:14px}.card h2{font-size:1.05rem;margin:0 0 12px}.grid,.metrics,.times,.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.field{display:grid;gap:5px}.field label,.label,.muted{font-size:.82rem;color:var(--muted)}input{width:100%;padding:10px;border:1px solid #bdc8d6;border-radius:8px;font:inherit}.stop{border:1px solid var(--line);padding:10px;border-radius:10px;margin:9px 0}.stopfields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.btn{border:0;border-radius:9px;padding:10px 13px;font:600 15px system-ui;background:#e7edf5;color:#172335}.primary{background:var(--blue);color:white}.danger{background:#fee4e2;color:#912018}.dark{background:var(--navy);color:white}.btn:disabled{opacity:.45}.status{border-radius:20px;padding:5px 9px;background:#e8eef7;font-size:.8rem}.run{background:#d9fbe8;color:#12643d}.pause{background:#fff1c2;color:#7b4c00}.clock{font-size:clamp(2rem,8vw,3rem);font-weight:800;font-variant-numeric:tabular-nums}.metric,.stat{background:#f4f7fb;border-radius:11px;padding:12px}.value{font-size:1.2rem;font-weight:750}.delay{font-size:clamp(1.6rem,6vw,2.4rem);font-weight:800}.next{font-size:1.5rem;font-weight:800;margin:6px 0}.timebox{border:1px solid var(--line);border-radius:10px;padding:10px}.time{font-size:1.5rem;font-weight:800}.notice{background:#eef5ff;color:#244a83;border-radius:9px;padding:10px;font-size:.9rem}.stat strong{display:block;font-size:1.3rem}.stoprow{padding:8px 0;display:flex;gap:8px}.hidden{display:none!important}footer{text-align:center;color:var(--muted);font-size:.8rem;padding:10px}@media(min-width:760px){.wrap{grid-template-columns:1fr 1fr}.full{grid-column:1/-1}}</style></head><body>
+<header><h1>Mein Linienfahrplan</h1><p>Testversion · manuell gesteuerter Betrieb</p></header><main class="wrap">
+<section class="card full"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><h2 style="margin:0">Betriebsdisplay</h2><span id="status" class="status">Bereit</span></div><div class="clock" id="clock">--:--:--</div><div class="muted" id="date"></div><div class="metrics" style="margin-top:12px"><div class="metric"><div class="label">Pünktlichkeit aktuell</div><div class="delay" id="delay">00:00</div><div class="muted" id="delayWords">Pünktlich</div></div><div class="metric"><div class="label">Fahrt</div><div class="value" id="direction">Noch nicht gestartet</div><div class="muted" id="placeIndex">Hinfahrt</div></div></div><div style="margin-top:12px"><div class="muted">Nächste Haltestelle</div><div class="next" id="nextName">—</div><div class="times"><div class="timebox"><div class="label">Geplante Ankunft</div><div class="time" id="nextArr">--:--</div></div><div class="timebox"><div class="label">Geplante Abfahrt</div><div class="time" id="nextDep">--:--</div></div></div></div><div class="notice" id="notice" style="margin-top:12px">Fahrplan festlegen. Abfahrten werden manuell bestätigt.</div><div class="btns"><button class="btn primary" id="start">▶ Betrieb starten</button><button class="btn" id="pause" disabled>⏸ Pausieren</button><button class="btn danger" id="reset">↻ Betrieb zurücksetzen</button><button class="btn dark" id="depart" disabled>Abfahrt bestätigen →</button></div></section>
+<section class="card"><h2>Fahrplan einstellen</h2><div class="grid"><div class="field"><label>Geplante erste Abfahrt</label><input type="time" id="startTime" value="08:00"></div><div class="field"><label>Wendezeit am Endpunkt (Min.)</label><input type="number" min="0" id="turnaround" value="5"></div></div><p class="muted">Fahrzeiten für Hin- und Rückfahrt getrennt einstellbar. Aufenthaltszeiten werden berücksichtigt.</p><div id="editor"></div><div class="btns"><button class="btn" id="add">＋ Haltestelle hinzufügen</button><button class="btn primary" id="apply">Fahrplan übernehmen</button></div></section>
+<section class="card"><h2>Statistik</h2><div class="stats"><div class="stat"><span class="muted">Bewertete Ankünfte</span><strong id="count">0</strong></div><div class="stat"><span class="muted">Pünktlich (±30 s)</span><strong id="ontime">0</strong></div><div class="stat"><span class="muted">Ø Abweichung</span><strong id="avg">00:00</strong></div><div class="stat"><span class="muted">Größte Verspätung</span><strong id="max">00:00</strong></div></div><p class="muted">Ohne Kilometerangaben.</p></section>
+<section class="card full"><h2>Datensicherung</h2><div class="btns"><button class="btn" id="export">JSON exportieren</button><button class="btn" id="import">JSON importieren</button><input id="file" type="file" accept=".json,application/json" class="hidden"></div><p class="muted">Automatische Speicherung in diesem Browser.</p></section>
+<section class="card full"><h2>Haltestellen-Fortschritt</h2><div id="progress" class="muted">Noch kein Betrieb gestartet.</div></section></main><footer>Testversion – bitte die Fahrplanlogik zuerst mit kurzen Beispielen testen.</footer>
 <script>
-const $=id=>document.getElementById(id);
-let stops=[],outTimes=[],backTimes=[],dwell=1,turnaround=5,firstTime='08:00';
-let running=false,paused=false,phase='idle',direction=1,index=0,cycles=0;
-let scheduledArrival=null,scheduledDeparture=null,delayMs=0,actualDeparture=null,actualArrival=null,turnaroundUntil=null;
-let arrivals=0,departures=0,delaySamples=[],late=0,clockTimer=null;
-const fmtTime=d=>d instanceof Date&&!isNaN(d)?d.toLocaleTimeString('de-CH',{hour:'2-digit',minute:'2-digit',second:'2-digit'}):'—';
-const fmtHM=d=>d instanceof Date&&!isNaN(d)?d.toLocaleTimeString('de-CH',{hour:'2-digit',minute:'2-digit'}):'—';
-const fmtDelta=ms=>{let s=Math.round(ms/1000),sign=s>0?'+':s<0?'−':'',a=Math.abs(s);return sign+String(Math.floor(a/60)).padStart(2,'0')+':'+String(a%60).padStart(2,'0')};
-const addMin=(d,m)=>new Date(d.getTime()+m*60000);
-function readSettings(){
- let ns=$('stops').value.split('\n').map(s=>s.trim()).filter(Boolean);
- if(ns.length<2)throw Error('Bitte mindestens zwei Haltestellen eintragen.');
- let o=$('outTimes').value.split(',').map(x=>Number(x.trim())),b=$('backTimes').value.split(',').map(x=>Number(x.trim()));
- if(o.length!==ns.length-1||b.length!==ns.length-1||[...o,...b].some(n=>!Number.isFinite(n)||n<0))throw Error('Für jede Richtung brauchst du genau '+(ns.length-1)+' gültige Fahrzeiten (Minuten).');
- const t=$('firstTime').value;if(!/^\d{2}:\d{2}$/.test(t))throw Error('Bitte erste Abfahrt als HH:MM eingeben.');
- stops=ns;outTimes=o;backTimes=b;dwell=Math.max(0,Number($('dwell').value)||0);turnaround=Math.max(0,Number($('turnaround').value)||0);firstTime=t;
-}
-function plannedAtStart(){let [h,m]=firstTime.split(':').map(Number),d=new Date();d.setHours(h,m,0,0);if(d.getTime()<Date.now()-60000)d.setDate(d.getDate()+1);return d;}
-function segmentMinutes(from,to,dir){return dir===1?outTimes[from]:backTimes[to];}
-function setStatus(text,kind=''){ $('status').textContent=text;$('status').className='status '+kind;}
-function update(){
- $('clock').textContent=new Date().toLocaleTimeString('de-CH',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
- $('cycles').textContent=cycles;$('arrivalsCount').textContent=arrivals;$('departuresCount').textContent=departures;$('lateCount').textContent=late;
- $('avgDelay').textContent=delaySamples.length?fmtDelta(delaySamples.reduce((a,b)=>a+b,0)/delaySamples.length):'—';
- $('delay').textContent=fmtDelta(delayMs);$('delayHint').textContent=delaySamples.length?'Abweichung zur geplanten Zeit':'Noch keine Abfahrt erfasst';
- $('direction').textContent=direction===1?'Hinfahrt':'Rückfahrt';
- $('currentStop').textContent=stops[index]||'—';
- let moving=phase==='moving',atStop=['atStop','idle'].includes(phase);
- $('phaseText').textContent=phase==='idle'?'Betrieb starten, um an der ersten Haltestelle zu beginnen.':phase==='moving'?'Unterwegs zur nächsten Haltestelle.':phase==='turnaround'?'Wendezeit am Endpunkt.':paused?'Betrieb pausiert.':'Du stehst an der Haltestelle.';
- $('nextStop').textContent=moving?(stops[index]||'—'):(phase==='turnaround'?'Wendezeit': '—');
- $('nextArr').textContent=moving?fmtHM(scheduledArrival):'—';$('nextDep').textContent=moving?'—':(atStop?fmtHM(scheduledDeparture):'—');
- $('guidance').textContent=phase==='idle'?'Du befindest dich an der ersten Haltestelle. Drücke „Abfahrt bestätigen“, wenn die Fahrt beginnt.':phase==='moving'?'Nächster Halt: '+stops[index]+'. Bei tatsächlicher Ankunft „Ankunft bestätigen“ drücken.':phase==='turnaround'?'Warte die Wendezeit ab, danach kannst du die Rückfahrt starten.':phase==='atStop'?'Du bist an '+stops[index]+'. Die Anzeige bleibt hier, bis du die Abfahrt bestätigst.':paused?'Betrieb pausiert. Du kannst fortsetzen oder beenden.':'';
- $('start').disabled=running;$('arrive').disabled=!running||paused||phase!=='moving';$('depart').disabled=!running||paused||!(phase==='idle'||phase==='atStop'||phase==='turnaround');$('pause').disabled=!running;$('pause').textContent=paused?'▶ Fortsetzen':'Ⅱ Pausieren';$('end').disabled=!running;
- if(!running)setStatus('Nicht gestartet');else if(paused)setStatus('Pausiert','warn');else if(phase==='moving')setStatus('Unterwegs','good');else if(phase==='turnaround')setStatus('Wendezeit','warn');else setStatus('An Haltestelle','good');
-}
-function calcNextSchedule(now){
- if(direction===1){let from=index-1;let mins=outTimes[from];scheduledArrival=addMin(now,mins);}
- else {let from=index+1;let mins=backTimes[index];scheduledArrival=addMin(now,mins);}
- scheduledDeparture=addMin(scheduledArrival,index===0||index===stops.length-1?turnaround:dwell);
-}
-function start(){
- try{readSettings();}catch(e){alert(e.message);return}
- running=true;paused=false;phase='idle';direction=1;index=0;cycles=0;arrivals=0;departures=0;late=0;delaySamples=[];delayMs=0;actualDeparture=null;actualArrival=null;
- scheduledDeparture=plannedAtStart();scheduledArrival=null;turnaroundUntil=null;update();
-}
-function depart(){
- const now=new Date();
- if(phase==='turnaround'){direction=-1;index=stops.length-1;phase='atStop';turnaroundUntil=null;}
- if(phase==='idle'){scheduledDeparture=plannedAtStart();}
- if(phase==='atStop' && actualArrival){
-   // dwell-time recovery: actual departure compared with planned departure, allowing scheduled dwell to absorb delay.
-   let plannedDep=scheduledDeparture||addMin(scheduledArrival,dwell);
-   delayMs=now-plannedDep;delaySamples.push(delayMs);departures++;
- }
- if(direction===1 && index===stops.length-1){direction=-1;phase='atStop';scheduledDeparture=addMin(now,turnaround);actualArrival=null;update();return;}
- if(direction===-1 && index===0){direction=1;cycles++;phase='atStop';scheduledDeparture=addMin(now,turnaround);actualArrival=null;update();return;}
- let nextIndex=index+direction;
- let minutes=direction===1?outTimes[index]:backTimes[index-1];
- scheduledArrival=addMin(now,minutes);
- // Schedule is propagated from actual departure; delay display reflects real time vs planned event.
- scheduledDeparture=addMin(scheduledArrival,(nextIndex===0||nextIndex===stops.length-1)?turnaround:dwell);
- index=nextIndex;actualDeparture=now;actualArrival=null;phase='moving';departures++;update();
-}
-function arrive(){
- const now=new Date();actualArrival=now;arrivals++;
- if(scheduledArrival){delayMs=now-scheduledArrival;delaySamples.push(delayMs);if(delayMs>30000)late++;}
- phase='atStop';scheduledDeparture=addMin(now,(index===0||index===stops.length-1)?turnaround:dwell);
- update();
-}
-function togglePause(){paused=!paused;update();}
-function end(){if(!confirm('Betrieb wirklich beenden und aktuelle Statistik zurücksetzen?'))return;running=false;paused=false;phase='idle';index=0;direction=1;scheduledArrival=scheduledDeparture=null;actualArrival=actualDeparture=null;update();}
-$('start').addEventListener('click',start);$('depart').addEventListener('click',depart);$('arrive').addEventListener('click',arrive);$('pause').addEventListener('click',togglePause);$('end').addEventListener('click',end);
-$('saveSettings').addEventListener('click',()=>{try{if(running)throw Error('Bitte Betrieb erst beenden, bevor du den Fahrplan änderst.');readSettings();index=0;update();alert('Fahrplan übernommen.');}catch(e){alert(e.message)}});
-try{readSettings()}catch(e){}update();setInterval(update,1000);
-</script>
-</body></html>
+const $=id=>document.getElementById(id);let plan={startTime:"08:00",turnaround:5,stops:[{name:"Bahnhof",out:5,back:6,dwell:1},{name:"Marktplatz",out:7,back:8,dwell:1},{name:"Endstation",out:0,back:0,dwell:2}]};let rt={state:"ready",dir:"out",i:0,delay:0,observed:[]};
+function sec(t){let [h,m]=t.split(":").map(Number);return h*3600+m*60}function fc(s){s=((Math.round(s)%86400)+86400)%86400;return String(Math.floor(s/3600)).padStart(2,"0")+":"+String(Math.floor(s%3600/60)).padStart(2,"0")}function fd(s){s=Math.round(s);let sign=s>0?"+":s<0?"−":"",a=Math.abs(s);return sign+String(Math.floor(a/60)).padStart(2,"0")+":"+String(a%60).padStart(2,"0")}function words(s){if(Math.abs(s)<1)return"Pünktlich";s=Math.abs(Math.round(s));return (Math.floor(s/60)?Math.floor(s/60)+" Min. ":"")+s%60+" Sek."+(rt.delay>0?" verspätet":" zu früh")}
+function sch(){let n=plan.stops.length,a=[],d=[],ba=[],bd=[],t=sec(plan.startTime);for(let i=0;i<n;i++){a[i]=t;if(i<n-1){t+=plan.stops[i].dwell*60;d[i]=t;t+=plan.stops[i].out*60}else d[i]=t}t=a[n-1]+Number(plan.turnaround||0)*60;for(let i=n-1;i>=0;i--){ba[i]=t;if(i>0){t+=plan.stops[i].dwell*60;bd[i]=t;t+=plan.stops[i].back*60}else bd[i]=t}return{a,d,ba,bd}}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function editor(){let box=$("editor");box.innerHTML="";plan.stops.forEach((s,i)=>{let x=document.createElement("div");x.className="stop";x.innerHTML=`<b>${i+1}. Haltestelle</b>${plan.stops.length>2?` <button class="btn danger" data-r="${i}" style="float:right;padding:5px 8px">Entfernen</button>`:""}<div class="stopfields" style="margin-top:10px"><div class="field" style="grid-column:1/-1"><label>Name</label><input data-i="${i}" data-k="name" value="${esc(s.name)}"></div><div class="field"><label>Fahrzeit hin zum Nächsten (Min.)</label><input type="number" min="0" data-i="${i}" data-k="out" value="${s.out}"></div><div class="field"><label>Fahrzeit zurück vom Nächsten (Min.)</label><input type="number" min="0" data-i="${i}" data-k="back" value="${s.back}"></div><div class="field" style="grid-column:1/-1"><label>Aufenthalt (Min.)</label><input type="number" min="0" data-i="${i}" data-k="dwell" value="${s.dwell}"></div></div>`;box.append(x)});box.querySelectorAll("input").forEach(el=>el.onchange=()=>{let s=plan.stops[+el.dataset.i],k=el.dataset.k;s[k]=k==="name"?el.value:Math.max(0,Number(el.value)||0)});box.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{plan.stops.splice(+b.dataset.r,1);editor()})}
+function save(){try{localStorage.setItem("lp-test-v3",JSON.stringify({plan,rt}))}catch(e){}}function load(){try{let d=JSON.parse(localStorage.getItem("lp-test-v3"));if(d?.plan?.stops?.length){plan=d.plan;rt=d.rt||rt}}catch(e){}}
+function next(){let s=sch(),n=plan.stops.length;if(rt.state==="ready"||rt.state==="ended")return{i:0,a:s.a[0],d:s.d[0]};let i=rt.dir==="out"?Math.min(rt.i+1,n-1):Math.max(rt.i-1,0);return{i,a:(rt.dir==="out"?s.a[i]:s.ba[i])+rt.delay,d:(rt.dir==="out"?s.d[i]:s.bd[i])+rt.delay}}
+function stats(){let a=rt.observed.filter(x=>x.kind==="arr");$("count").textContent=a.length;$("ontime").textContent=a.filter(x=>Math.abs(x.delay)<=30).length;if(!a.length){$("avg").textContent=$("max").textContent="00:00";return} $("avg").textContent=fd(a.reduce((v,x)=>v+x.delay,0)/a.length);$("max").textContent=fd(Math.max(...a.map(x=>x.delay)))}
+function render(){let d=new Date();$("clock").textContent=d.toLocaleTimeString("de-CH",{hour12:false});$("date").textContent=d.toLocaleDateString("de-CH",{weekday:"long",day:"2-digit",month:"long"});$("status").textContent={ready:"Bereit",running:"In Betrieb",paused:"Pausiert",ended:"Beendet"}[rt.state];$("status").className="status "+(rt.state==="running"?"run":rt.state==="paused"?"pause":"");$("delay").textContent=fd(rt.delay);$("delayWords").textContent=words(rt.delay);$("direction").textContent=rt.state==="ready"?"Noch nicht gestartet":rt.dir==="out"?"Hinfahrt":"Rückfahrt";$("placeIndex").textContent=rt.state==="ready"?"Hinfahrt":`Haltestelle ${rt.i+1} von ${plan.stops.length}`;let n=next();$("nextName").textContent=plan.stops[n.i]?.name||"—";$("nextArr").textContent=fc(n.a);$("nextDep").textContent=fc(n.d);$("start").disabled=rt.state==="running"||rt.state==="paused";$("pause").disabled=!["running","paused"].includes(rt.state);$("pause").textContent=rt.state==="paused"?"▶ Fortsetzen":"⏸ Pausieren";$("depart").disabled=rt.state!=="running";$("notice").textContent=rt.state==="ready"?"Fahrplan festlegen. Abfahrten werden manuell bestätigt.":rt.state==="paused"?"Betrieb pausiert. Tippe auf Fortsetzen, wenn du bereit bist.":rt.state==="ended"?"Betrieb beendet. Zurücksetzen startet wieder am Anfang.":"Die Weiterfahrt erfolgt nur nach deiner manuellen Bestätigung.";let p=$("progress");if(["ready","ended"].includes(rt.state))p.textContent="Noch kein aktiver Betrieb.";else p.innerHTML=plan.stops.map((s,i)=>`<div class="stoprow"><b>${i===rt.i?"●":rt.observed.some(x=>x.i===i&&x.dir===rt.dir&&x.kind==="arr")?"✓":"○"}</b><span>${esc(s.name)}</span><span class="muted">${rt.observed.some(x=>x.i===i&&x.dir===rt.dir&&x.kind==="arr")?"Angekommen":""}</span></div>`).join("");stats();save()}
+function apply(){if(["running","paused"].includes(rt.state)){alert("Bitte zuerst den Betrieb zurücksetzen.");return}plan.startTime=$("startTime").value||"08:00";plan.turnaround=Math.max(0,+$("turnaround").value||0);if(plan.stops.length<2)return alert("Mindestens zwei Haltestellen nötig.");rt={state:"ready",dir:"out",i:0,delay:0,observed:[]};render();alert("Fahrplan übernommen.")}
+function reset(){if(!confirm("Betrieb wirklich zurücksetzen? Fortschritt und Statistik dieser Fahrt gehen verloren. Der Fahrplan bleibt erhalten."))return;rt={state:"ready",dir:"out",i:0,delay:0,observed:[]};render()}
+$("add").onclick=()=>{plan.stops.splice(plan.stops.length-1,0,{name:"Neue Haltestelle",out:5,back:5,dwell:1});editor()};$("apply").onclick=apply;$("start").onclick=()=>{if(rt.state==="ended")rt={state:"ready",dir:"out",i:0,delay:0,observed:[]};rt.state="running";render()};$("pause").onclick=()=>{rt.state=rt.state==="paused"?"running":"paused";render()};$("reset").onclick=reset;
+$("depart").onclick=()=>{if(rt.state!=="running")return;let s=sch(),n=plan.stops.length,now=new Date(),actual=now.getHours()*3600+now.getMinutes()*60+now.getSeconds(),scheduled=(rt.dir==="out"?s.d[rt.i]:s.bd[rt.i]);let delta=actual-scheduled;if(delta>43200)delta-=86400;if(delta< -43200)delta+=86400;rt.delay=delta;rt.observed.push({i:rt.i,dir:rt.dir,kind:"dep",delay:delta});if(rt.dir==="out"&&rt.i<n-1){rt.i++;rt.observed.push({i:rt.i,dir:"out",kind:"arr",delay:delta})}else if(rt.dir==="out"){rt.dir="back";rt.i=n-1}else if(rt.i>0){rt.i--;rt.observed.push({i:rt.i,dir:"back",kind:"arr",delay:delta})}else rt.state="ended";render()};
+$("startTime").onchange=()=>plan.startTime=$("startTime").value;$("turnaround").onchange=()=>plan.turnaround=+$("turnaround").value||0;
+$("export").onclick=()=>{let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify({version:3,plan},null,2)],{type:"application/json"}));a.download="linienfahrplan.json";a.click();URL.revokeObjectURL(a.href)};$("import").onclick=()=>$("file").click();$("file").onchange=async e=>{try{let d=JSON.parse(await e.target.files[0].text()),p=d.plan||d;if(!p.stops?.length)throw Error("Keine Haltestellen gefunden");plan={startTime:p.startTime||"08:00",turnaround:+p.turnaround||5,stops:p.stops.map(s=>({name:String(s.name||"Haltestelle"),out:+s.out||0,back:+s.back||0,dwell:+s.dwell||0}))};rt={state:"ready",dir:"out",i:0,delay:0,observed:[]};$("startTime").value=plan.startTime;$("turnaround").value=plan.turnaround;editor();render();alert("Import erfolgreich")}catch(err){alert("Import fehlgeschlagen: "+err.message)}e.target.value=""};
+load();$("startTime").value=plan.startTime;$("turnaround").value=plan.turnaround;editor();render();setInterval(render,1000);if("serviceWorker"in navigator&&location.protocol.startsWith("http"))addEventListener("load",()=>navigator.serviceWorker.register("service-worker.js").catch(()=>{}));
+</script></body></html>
