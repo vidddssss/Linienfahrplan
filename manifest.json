@@ -1,0 +1,21 @@
+{
+  "id": "./",
+  "name": "Mein persönlicher Linienfahrplan",
+  "short_name": "Linienfahrplan",
+  "description": "Persönlicher Fahrplan mit Haltestellen, Live-Uhr und manueller Abfahrtsbestätigung.",
+  "lang": "de-CH",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0b1626",
+  "theme_color": "#0b1626",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
