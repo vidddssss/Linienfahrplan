@@ -1,21 +1,6 @@
-# Mein persönlicher Linienfahrplan (Android/PWA)
+# Mein Linienfahrplan – Testversion
+Lade alle fünf Dateien in das Stammverzeichnis deines GitHub-Repositorys. Unter Settings → Pages wähle Deploy from a branch, `main`, `/(root)`, dann Save.
 
-## Dateien
-- `index.html`: die App
-- `manifest.json`: Installationsinformationen
-- `service-worker.js`: Offline-Cache
-- `icon.svg`: App-Symbol
+Enthalten: manuelles Starten/Pausieren/Fortsetzen/Zurücksetzen, Hin- und Rückfahrt mit eigenen Fahrzeiten, Aufenthaltszeiten, Wendezeit, Pünktlichkeitsanzeige, Statistik ohne Kilometer, lokale Speicherung und JSON-Import/Export.
 
-## Veröffentlichung mit GitHub Pages
-1. Melde dich auf https://github.com an und erstelle ein neues Repository, z. B. `linienfahrplan`.
-2. Lade alle vier Dateien aus diesem Ordner ins Stammverzeichnis des Repositorys hoch.
-3. Öffne **Settings → Pages**.
-4. Unter **Build and deployment** wähle **Deploy from a branch**, Branch `main`, Ordner `/(root)`, dann **Save**.
-5. Warte, bis GitHub Pages die Website veröffentlicht hat. Die Adresse wird in **Settings → Pages** angezeigt.
-6. Öffne die HTTPS-Adresse in Chrome auf Android. Wähle im Menü ⋮ **App installieren** oder **Zum Startbildschirm hinzufügen**.
-
-## Hinweise
-- Der Service Worker benötigt HTTPS (GitHub Pages erfüllt dies) und wird erst nach dem ersten Online-Aufruf aktiv.
-- Browser-Speicherung gilt für diesen Browser auf diesem Gerät. Exportiere regelmäßig eine JSON-Sicherung.
-- Das Repository und die veröffentlichte Website können öffentlich zugänglich sein. Lade keine privaten Daten hoch.
-- Jede Abfahrt wird ausschließlich per Tastendruck bestätigt; es gibt keine automatische Weiterschaltung.
+Hinweis: Dies ist eine frühe Testversion. Bitte die Fahrplan- und Verspätungslogik vor längerer Nutzung mit kurzen Testfahrten prüfen. Die Zeiten der Fahrplanvorschau sind geplante Zeiten; beim manuellen Abfahrtsknopf wird die Geräteuhr für die Verspätung herangezogen.

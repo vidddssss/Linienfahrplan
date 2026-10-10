@@ -1,15 +1,11 @@
 {
-  "id": "./",
-  "name": "Mein persönlicher Linienfahrplan",
+  "name": "Mein Linienfahrplan – Testversion",
   "short_name": "Linienfahrplan",
-  "description": "Persönlicher Fahrplan mit Haltestellen, Live-Uhr und manueller Abfahrtsbestätigung.",
-  "lang": "de-CH",
   "start_url": "./",
-  "scope": "./",
   "display": "standalone",
-  "orientation": "any",
-  "background_color": "#0b1626",
-  "theme_color": "#0b1626",
+  "background_color": "#f2f5f9",
+  "theme_color": "#132238",
+  "description": "Persönlicher Linienfahrplan mit manueller Betriebssteuerung, Hin- und Rückfahrt und Statistik.",
   "icons": [
     {
       "src": "icon.svg",
